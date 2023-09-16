@@ -1,0 +1,189 @@
+--Pregunta. 
+Cuando un Switch Core, es utilizado en la capa de distribucion 
+se denomina Switch Colapsado o Core Colapsado.
+
+--EJEMPLO CLASE. OSPF
+MSW1# conft
+MSW1# vlan 10
+MSW1# name DESARROLLO
+MSW1# exit
+MSW1# vlan 30
+MSW1# name RRHH
+MSW1# exit
+MSW1# int vlan 10 
+MSW1# ip address 192.168.10.1 255.255.255.0
+MSW1# no shutdown
+MSW1# exit
+MSW1# int vlan 30
+MSW1# ip address 3.3.3.1 255.0.0.0
+MSW1# no shutdown
+MSW1# exit
+
+MSW1# int f0/11
+MSW1# switchport access vlan 10
+MSW1# switchport mode access
+MSW1# description ACC_VLAN10
+MSW1# exit
+MSW1# int g0/1
+MSW1# switchport mode access
+MSW1# description ACC_VLAN30
+MSW1# exit
+
+MSW2# enable
+MSW2# conf t
+MSW2# vlan 20
+MSW2# name INFORMATICA
+MSW2# exit
+MSW2# vlan 30
+MSW2# name RRHH
+MSW2# exit
+MSW2# do sh vlan brief
+
+MSW2# ip address 192.168.20.1 255.255.255.0
+MSW2# no shutdown
+MSW2# ip address 3.3.3.2 255.0.0.0
+MSW2# no shutdown
+MSW2# exit
+MSW2# it f0/11
+MSW2# switchport access vlan 20
+MSW2# switchport mode access
+MSW2# description ACC_VLAN20
+MSW2# exit
+
+MSW2# int g0/1
+MSW2# switchport access vlan 30
+MSW2# swithcport mode access
+MSW2# description ACC_VLAN30
+MSW2# exit
+
+MSW1# conf t
+MSW1# ip routing
+MSW1# router ospf 10
+MSW1# network 3.3.3.0 0.0.0.255 area 10
+MSW1# network 192.168.10.0 0.0.0.255 area 10
+MSW1# network 192.168.20.0 0.0.0.255 area 10
+MSW1# exit
+MSW1# show run
+
+MSW2# conf t
+MSW2# ip routing
+MSW2# router ospf 10
+MSW2# network 3.3.3.0 0.0.0.255 area 10
+MSW2# network 192.168.10.0 0.0.0.255 area 10
+MSW2# network 192.168.20.0 0.0.0.255 area 10
+MSW2# exit
+
+--EJEMPLO CLASE. EIGRP
+MSW3# conf t
+MSW3# vlan 10
+MSW3# name DESARROLLO
+MSW3# exit
+MSW3# vlan 30
+MSW3# name RRHH
+MSW3# exit
+MSW3# int vlan 10
+MSW3# ip address 192.168.10.1 255.255.255.0
+MSW3# no shutdown
+MSW3# exit
+MSW3# int vlan 30
+MSW3# ip address 3.3.3.1 255.0.0.0
+MSW3# no shutdown
+MSW3# exit
+MSW3# int f0/11
+MSW3# switchport access vlan 10
+MSW3# switchport mode access
+MSW3# exit
+MSW3# int g0/1
+MSW3# swichport access vlan 30
+MSW3# swichport mode access
+MSW3# exit
+
+MSW4# enable
+MSW4# conf t
+MSW4# vlan 20 
+MSW4# name INORMATICA
+MSW4# exit
+MSW4# vlan 30
+MSW4# name RRHH
+MSW4# exit
+MSW4# int vlan 20
+MSW4# ip address 192.168.20.1 255.255.255.0
+MSW4# no shutdown
+MSW4# exit
+MSW4# int vlan 30
+MSW4# ip address 3.3.3.2 255.0.0.0
+MSW4# no shutdown
+MSW4# exit
+MSW4# int f0/11
+MSW4# swichtport access vlan 20
+MSW4# swichport mode access
+MSW4# int g0/1
+MSW4# switchport access vlan 30
+MSW4# switchport mode access
+MSW4# exit
+
+MSW4# ip routing
+MSW4# router digrp 20
+MSW4# network 3.3.3.0
+MSW4# network 192.168.10.0
+MSW4# network 192.168.20.0
+MSW4# no auto-sumary
+MSW4# exit
+MSW4# wr
+
+MSW3# enable
+MSW3# conf t
+MSW3# ip routing
+MSW3# router eigrp 20
+MSW3# network 3.3.3.0
+MSW3# network 192.168.10.0
+MSW3# network 192.168.20.0
+MSW3# no auto-sumary
+MSW3# exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+--GRUPO 23 = 5
+--CONFIGURACION DE VLAN E INTERFACES DE VLAN
+
+##VLAN
+--CORPORATIVO65
+--VENTAS65
+--DISTRIBUCION65
+
+##INTERFACES DE VLAN
+--RRHH
+--192.168.95.1
+--255.255.255.0
+
+--SOPORTE
+--192.168.85.1
+--255.255.255.0
+
+--IT
+--192.168.75.1
+--255.255.255.0
+
+
+
+
+
+
+
